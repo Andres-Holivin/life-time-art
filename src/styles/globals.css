@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/* Global smooth scrolling and scroll padding for fixed header */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 4rem; /* 64px for the fixed navigation */
+  }
+}
+
+/* Fallback for browsers that don't support scroll-padding-top */
+html {
+  scroll-padding-top: 4rem;
+}
+
+/* --- Testimonials marquee + rotate animations --- */
+:root {
+  --marquee-duration: 40s;
+}
+
+/* Horizontal infinite scroll for a row of cards */
+.testimonials-marquee {
+  display: flex;
+  align-items: stretch;
+  gap: 2rem; /* ~32px */
+  width: max-content;
+  animation: testimonials-scroll var(--duration, var(--marquee-duration)) linear infinite;
+}
+
+.testimonials-marquee.reverse {
+  animation-direction: reverse;
+}
+
+/* Pause animation on hover for better UX */
+.testimonials-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes testimonials-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Subtle back-and-forth rotation for each card */
+
+.testimonial-card-tilt {
+  animation: testimonials-tilt 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Soft edge fades on the sides while scrolling */
+.testimonials-fade-left,
+.testimonials-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 64px; /* 16 * 4 */
+  pointer-events: none;
+  z-index: 10;
+}
+
+.testimonials-fade-left {
+  left: 0;
+  background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0));
+}
+
+.testimonials-fade-right {
+  right: 0;
+  background: linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0));
+}
